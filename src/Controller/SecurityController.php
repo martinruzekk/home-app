@@ -2,9 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -23,7 +30,9 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername, 'error' => $error
+        ]);
     }
 
     /**
@@ -33,8 +42,29 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+    /*
+    
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasherInterface)
+    {
+        $newUser = new User();
+        $newUser->setLastLogin(DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')));
+        $newUser->setRoles(["ROLE_ADMIN"]);
 
-    /**
-     * @Route("/register", name="security.register")
-     */
+        $registerForm = $this->createForm(RegisterFormType::class, $newUser);
+        $em = $this->getDoctrine()->getManager();
+
+        $registerForm->handleRequest($request);
+        if ($registerForm->isSubmitted()) {
+            $data = $registerForm->getData();
+            dump($data);
+            dump($newUser);
+            $newUser->setPassword($passwordHasherInterface->hashPassword($newUser, $data));
+            dump($newUser);
+            die;
+        }
+
+        return $this->render('security/register.html.twig', [
+            'registerForm' => $registerForm->createView()
+        ]);
+    }*/
 }

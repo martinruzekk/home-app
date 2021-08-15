@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		{% for flashError in app.flashes('verify_email_error') %}
+			<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+		{% endfor %}
+
+		<h1 class="is-size-1">Register</h1>
+
+		<div class="box">
+			{{ form_start(registrationForm) }}
+			<div class="field">
+				<div class="label">{{ form_label(registrationForm.email) }}</div>
+				<div class="control">{{ form_widget(registrationForm.email) }}</div>
+				<p class="help is-danger">{{ form_errors(registrationForm.email) }}</p>
+			</div>
+			<div class="field">
+				<div class="label">{{ form_label(registrationForm.firstName) }}</div>
+				<div class="control">{{ form_widget(registrationForm.firstName) }}</div>
+			</div>
+			<div class="field">
+				<div class="label">{{ form_label(registrationForm.lastName) }}</div>
+				<div class="control">{{ form_widget(registrationForm.lastName) }}</div>
+			</div>
+			<div class="field">
+				<div class="label">{{ form_label(registrationForm.plainPassword) }}</div>
+				<div class="control">{{ form_widget(registrationForm.plainPassword) }}</div>
+				<p class="help is-danger">{{ form_errors(registrationForm.plainPassword) }}</p>
+			</div>
+			<div class="field">
+				<div class="label">{{ form_label(registrationForm.passwordRepeat) }}</div>
+				<div class="control">{{ form_widget(registrationForm.passwordRepeat) }}</div>
+				<p class="help is-danger">{{ form_errors(registrationForm.plainPassword) }}</p>
+			</div>
+			<div class="field">
+				<div class="control">
+					<label class="checkbox">
+						{{ form_widget(registrationForm.agreeTerms) }}
+						Souhlasím s podmínkami
+					</label>
+				</div>
+			</div>
+			{{ form_end(registrationForm) }}
+		</div>
+	</div>
+{% endblock %}
