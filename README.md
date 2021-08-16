@@ -1,4 +1,4 @@
-# Custom home controll web app
+# Custom home control web app
 
 App for basic home control
 
