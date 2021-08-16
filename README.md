@@ -1,10 +1,10 @@
 # Custom home controll web app
 
-App for basic home controll.
+App for basic home control
 
 ## Basic concept
 
-* LED strip controll
+* LED strip control
 * DHCP sniffer
 * Arduino connected
   * Temeratures
