@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -56,6 +58,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="user_id")
+     */
+    private $items;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FoodName::class, mappedBy="user_id")
+     */
+    private $foodNames;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Food::class, mappedBy="user_id")
+     */
+    private $food;
+
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+        $this->foodNames = new ArrayCollection();
+        $this->food = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -190,6 +214,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->removeElement($item)) {
+            // set the owning side to null (unless already changed)
+            if ($item->getUserId() === $this) {
+                $item->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FoodName[]
+     */
+    public function getFoodNames(): Collection
+    {
+        return $this->foodNames;
+    }
+
+    public function addFoodName(FoodName $foodName): self
+    {
+        if (!$this->foodNames->contains($foodName)) {
+            $this->foodNames[] = $foodName;
+            $foodName->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFoodName(FoodName $foodName): self
+    {
+        if ($this->foodNames->removeElement($foodName)) {
+            // set the owning side to null (unless already changed)
+            if ($foodName->getUserId() === $this) {
+                $foodName->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Food[]
+     */
+    public function getFood(): Collection
+    {
+        return $this->food;
+    }
+
+    public function addFood(Food $food): self
+    {
+        if (!$this->food->contains($food)) {
+            $this->food[] = $food;
+            $food->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFood(Food $food): self
+    {
+        if ($this->food->removeElement($food)) {
+            // set the owning side to null (unless already changed)
+            if ($food->getUserId() === $this) {
+                $food->setUserId(null);
+            }
+        }
 
         return $this;
     }

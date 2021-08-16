@@ -1,0 +1,67 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+	<div class="navbar-brand">
+		<a class="navbar-item" href="{{ path('main') }}">
+			<h4 class="is-size-4 has-text-weight-bold">RHC</h4>
+		</a>
+
+		<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+		</a>
+	</div>
+
+	<div id="navbarBasicExample" class="navbar-menu">
+		<div class="navbar-start">
+			{% if is_granted('ROLE_ADMIN') %}
+				<a class="navbar-item">
+					Admin
+				</a>
+			{% endif %}
+
+			<div class="navbar-item has-dropdown is-hoverable">
+				<a class="navbar-link">
+					Funkce
+				</a>
+
+				<div class="navbar-dropdown">
+					<a class="navbar-item" href="{{ path('inventory.index') }}">
+						Inventář
+					</a>
+					<a class="navbar-item">
+						Food-picker
+					</a>
+					{% if is_granted('ROLE_ADMIN') %}
+						<a class="navbar-item">
+							Martin
+						</a>
+					{% endif %}
+					<hr class="navbar-divider">
+					<a class="navbar-item">
+						Aplikace
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="navbar-end">
+			<div class="navbar-item">
+				<div class="buttons">
+					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+						<a class="button is-primary" href="{{ path('app_login') }}">
+							<strong>Log in</strong>
+						</a>
+						<a href="{{ path('app_register') }}" class="button is-light">
+							Sign up
+						</a>
+					{% else %}
+						<a class="button is-primary" href="{{ path('app_logout') }}">
+							<strong>Log out</strong>
+						</a>
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>

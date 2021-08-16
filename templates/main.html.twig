@@ -1,0 +1,86 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Home-control
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="alerts">
+			{% if logout == "success" %}
+				<article class="message is-success">
+					<div class="message-header">
+						<p>Info</p>
+						<button class="delete" aria-label="delete"></button>
+					</div>
+					<div class="message-body">
+						Odhlášení proběhlo úspěšně.
+					</div>
+				</article>
+			{% endif %}
+		</div>
+
+		{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+			<div class="is-flex is-align-content-center is-justify-content-center">
+				<a href="{{ path('app_login') }}" class="button is-primary is-large mt-5">Log in</a>
+			</div>
+			<div class="is-flex is-align-content-center is-justify-content-center">
+				<a href="{{ path('app_register') }}" class="button is-primary is-large mt-5">Sign up</a>
+			</div>
+		{% else %}
+			<div class="columns functions">
+				<div class="column is-one-quarter">
+					<div class="card">
+						<header class="card-header">
+							<p class="card-header-title">
+								Inventář
+							</p>
+						</header>
+						<div class="card-content">
+							<div class="content">
+								Inventářový systém
+							</div>
+						</div>
+						<footer class="card-footer">
+							<a href="{{ path('inventory.index') }}" class="card-footer-item">Otevřít</a>
+						</footer>
+					</div>
+				</div>
+				<div class="column is-one-quarter">
+					<div class="card" href="#">
+						<header class=" card-header">
+							<p class="card-header-title">
+								Food-picker
+							</p>
+						</header>
+						<div class="card-content">
+							<div class="content">
+								Automatrický vybírač jídla a databáze toho, co jsme jako rodina jedli k obědu
+							</div>
+						</div>
+						<footer class="card-footer">
+							<a href="#" class="card-footer-item">Otevřít</a>
+						</footer>
+					</div>
+				</div>
+				<div class="column is-one-quarter">
+					<div class="card">
+						<header class="card-header">
+							<p class="card-header-title">
+								Ovládání pokoje
+							</p>
+						</header>
+						<div class="card-content">
+							<div class="content">
+								Světla, logy, atd.
+							</div>
+						</div>
+						<footer class="card-footer">
+							<a href="#" class="card-footer-item">Otevřít</a>
+						</footer>
+					</div>
+				</div>
+				<div class="column is-one-quarter"></div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
