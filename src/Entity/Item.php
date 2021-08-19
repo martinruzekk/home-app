@@ -33,13 +33,13 @@ class Item
      * @ORM\ManyToOne(targetEntity=ItemType::class, inversedBy="items")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $item_type_id;
+    private $item_type;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="items")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
      * @ORM\Column(type="integer")
@@ -49,20 +49,20 @@ class Item
     /**
      * @ORM\ManyToOne(targetEntity=Company::class, inversedBy="items")
      */
-    private $company_id;
+    private $company;
 
     /**
-     * @ORM\OneToMany(targetEntity=ItemInfo::class, mappedBy="item_id")
+     * @ORM\OneToMany(targetEntity=ItemInfo::class, mappedBy="item")
      */
     private $itemInfos;
 
     /**
-     * @ORM\OneToMany(targetEntity=ItemImage::class, mappedBy="item_id")
+     * @ORM\OneToMany(targetEntity=ItemImage::class, mappedBy="item")
      */
     private $itemImages;
 
     /**
-     * @ORM\OneToMany(targetEntity=RelatedItem::class, mappedBy="item_id")
+     * @ORM\OneToMany(targetEntity=RelatedItem::class, mappedBy="item")
      */
     private $relatedItems;
 
@@ -102,30 +102,6 @@ class Item
         return $this;
     }
 
-    public function getItemTypeId(): ?ItemType
-    {
-        return $this->item_type_id;
-    }
-
-    public function setItemTypeId(?ItemType $item_type_id): self
-    {
-        $this->item_type_id = $item_type_id;
-
-        return $this;
-    }
-
-    public function getUserId(): ?User
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
     public function getAmmount(): ?int
     {
         return $this->ammount;
@@ -134,18 +110,6 @@ class Item
     public function setAmmount(int $ammount): self
     {
         $this->ammount = $ammount;
-
-        return $this;
-    }
-
-    public function getCompanyId(): ?Company
-    {
-        return $this->company_id;
-    }
-
-    public function setCompanyId(?Company $company_id): self
-    {
-        $this->company_id = $company_id;
 
         return $this;
     }
@@ -162,7 +126,7 @@ class Item
     {
         if (!$this->itemInfos->contains($itemInfo)) {
             $this->itemInfos[] = $itemInfo;
-            $itemInfo->setItemId($this);
+            $itemInfo->setItem($this);
         }
 
         return $this;
@@ -172,8 +136,8 @@ class Item
     {
         if ($this->itemInfos->removeElement($itemInfo)) {
             // set the owning side to null (unless already changed)
-            if ($itemInfo->getItemId() === $this) {
-                $itemInfo->setItemId(null);
+            if ($itemInfo->getItem() === $this) {
+                $itemInfo->setItem(null);
             }
         }
 
@@ -192,7 +156,7 @@ class Item
     {
         if (!$this->itemImages->contains($itemImage)) {
             $this->itemImages[] = $itemImage;
-            $itemImage->setItemId($this);
+            $itemImage->setItem($this);
         }
 
         return $this;
@@ -202,8 +166,8 @@ class Item
     {
         if ($this->itemImages->removeElement($itemImage)) {
             // set the owning side to null (unless already changed)
-            if ($itemImage->getItemId() === $this) {
-                $itemImage->setItemId(null);
+            if ($itemImage->getItem() === $this) {
+                $itemImage->setItem(null);
             }
         }
 
@@ -222,7 +186,7 @@ class Item
     {
         if (!$this->relatedItems->contains($relatedItem)) {
             $this->relatedItems[] = $relatedItem;
-            $relatedItem->setItemId($this);
+            $relatedItem->setItem($this);
         }
 
         return $this;
@@ -232,10 +196,46 @@ class Item
     {
         if ($this->relatedItems->removeElement($relatedItem)) {
             // set the owning side to null (unless already changed)
-            if ($relatedItem->getItemId() === $this) {
-                $relatedItem->setItemId(null);
+            if ($relatedItem->getItem() === $this) {
+                $relatedItem->setItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getItemType(): ?ItemType
+    {
+        return $this->item_type;
+    }
+
+    public function setItemType(?ItemType $item_type): self
+    {
+        $this->item_type = $item_type;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }

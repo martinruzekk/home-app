@@ -26,7 +26,7 @@ class InventoryLocationImage
      * @ORM\ManyToOne(targetEntity=InventoryLocation::class, inversedBy="inventoryLocationImages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $inventory_location_id;
+    private $inventory_location;
 
     public function getId(): ?int
     {
@@ -45,14 +45,14 @@ class InventoryLocationImage
         return $this;
     }
 
-    public function getInventoryLocationId(): ?InventoryLocation
+    public function getInventoryLocation(): ?InventoryLocation
     {
-        return $this->inventory_location_id;
+        return $this->inventory_location;
     }
 
-    public function setInventoryLocationId(?InventoryLocation $inventory_location_id): self
+    public function setInventoryLocation(?InventoryLocation $inventory_location): self
     {
-        $this->inventory_location_id = $inventory_location_id;
+        $this->inventory_location = $inventory_location;
 
         return $this;
     }

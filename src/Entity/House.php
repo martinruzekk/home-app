@@ -32,10 +32,10 @@ class House
     /**
      * @ORM\ManyToOne(targetEntity=Address::class)
      */
-    private $address_id;
+    private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity=InventoryLocation::class, mappedBy="house_id")
+     * @ORM\OneToMany(targetEntity=InventoryLocation::class, mappedBy="house")
      */
     private $inventoryLocations;
 
@@ -73,14 +73,14 @@ class House
         return $this;
     }
 
-    public function getAddressId(): ?Address
+    public function getAddress(): ?Address
     {
-        return $this->address_id;
+        return $this->address;
     }
 
-    public function setAddressId(?Address $address_id): self
+    public function setAddress(?Address $address): self
     {
-        $this->address_id = $address_id;
+        $this->address = $address;
 
         return $this;
     }
@@ -97,7 +97,7 @@ class House
     {
         if (!$this->inventoryLocations->contains($inventoryLocation)) {
             $this->inventoryLocations[] = $inventoryLocation;
-            $inventoryLocation->setHouseId($this);
+            $inventoryLocation->setHouse($this);
         }
 
         return $this;
@@ -107,8 +107,8 @@ class House
     {
         if ($this->inventoryLocations->removeElement($inventoryLocation)) {
             // set the owning side to null (unless already changed)
-            if ($inventoryLocation->getHouseId() === $this) {
-                $inventoryLocation->setHouseId(null);
+            if ($inventoryLocation->getHouse() === $this) {
+                $inventoryLocation->setHouse(null);
             }
         }
 

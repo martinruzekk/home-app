@@ -25,12 +25,12 @@ class Country
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=2)
+     * @ORM\Column(type="string", length=3)
      */
     private $code;
 
     /**
-     * @ORM\OneToMany(targetEntity=Address::class, mappedBy="country_id")
+     * @ORM\OneToMany(targetEntity=Address::class, mappedBy="country")
      */
     private $addresses;
 
@@ -80,7 +80,7 @@ class Country
     {
         if (!$this->addresses->contains($address)) {
             $this->addresses[] = $address;
-            $address->setCountryId($this);
+            $address->setCountry($this);
         }
 
         return $this;
@@ -90,8 +90,8 @@ class Country
     {
         if ($this->addresses->removeElement($address)) {
             // set the owning side to null (unless already changed)
-            if ($address->getCountryId() === $this) {
-                $address->setCountryId(null);
+            if ($address->getCountry() === $this) {
+                $address->setCountry(null);
             }
         }
 

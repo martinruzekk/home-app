@@ -21,13 +21,13 @@ class Food
      * @ORM\ManyToOne(targetEntity=FoodName::class, inversedBy="food")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $food_name_id;
+    private $food_name;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="food")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -39,30 +39,6 @@ class Food
         return $this->id;
     }
 
-    public function getFoodNameId(): ?FoodName
-    {
-        return $this->food_name_id;
-    }
-
-    public function setFoodNameId(?FoodName $food_name_id): self
-    {
-        $this->food_name_id = $food_name_id;
-
-        return $this;
-    }
-
-    public function getUserId(): ?User
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
     public function getCookedAt(): ?\DateTimeImmutable
     {
         return $this->cooked_at;
@@ -71,6 +47,30 @@ class Food
     public function setCookedAt(\DateTimeImmutable $cooked_at): self
     {
         $this->cooked_at = $cooked_at;
+
+        return $this;
+    }
+
+    public function getFoodName(): ?FoodName
+    {
+        return $this->food_name;
+    }
+
+    public function setFoodName(?FoodName $food_name): self
+    {
+        $this->food_name = $food_name;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

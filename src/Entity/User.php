@@ -60,17 +60,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="user_id")
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="user")
      */
     private $items;
 
     /**
-     * @ORM\OneToMany(targetEntity=FoodName::class, mappedBy="user_id")
+     * @ORM\OneToMany(targetEntity=FoodName::class, mappedBy="user")
      */
     private $foodNames;
 
     /**
-     * @ORM\OneToMany(targetEntity=Food::class, mappedBy="user_id")
+     * @ORM\OneToMany(targetEntity=Food::class, mappedBy="user")
      */
     private $food;
 
@@ -230,7 +230,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->items->contains($item)) {
             $this->items[] = $item;
-            $item->setUserId($this);
+            $item->setUser($this);
         }
 
         return $this;
@@ -240,8 +240,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->items->removeElement($item)) {
             // set the owning side to null (unless already changed)
-            if ($item->getUserId() === $this) {
-                $item->setUserId(null);
+            if ($item->getUser() === $this) {
+                $item->setUser(null);
             }
         }
 
@@ -260,7 +260,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->foodNames->contains($foodName)) {
             $this->foodNames[] = $foodName;
-            $foodName->setUserId($this);
+            $foodName->setUser($this);
         }
 
         return $this;
@@ -270,8 +270,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->foodNames->removeElement($foodName)) {
             // set the owning side to null (unless already changed)
-            if ($foodName->getUserId() === $this) {
-                $foodName->setUserId(null);
+            if ($foodName->getUser() === $this) {
+                $foodName->setUser(null);
             }
         }
 
@@ -290,7 +290,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->food->contains($food)) {
             $this->food[] = $food;
-            $food->setUserId($this);
+            $food->setUser($this);
         }
 
         return $this;
@@ -300,11 +300,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->food->removeElement($food)) {
             // set the owning side to null (unless already changed)
-            if ($food->getUserId() === $this) {
-                $food->setUserId(null);
+            if ($food->getUser() === $this) {
+                $food->setUser(null);
             }
         }
 
         return $this;
+    }
+
+    public function getIsVerified(): ?bool
+    {
+        return $this->isVerified;
     }
 }

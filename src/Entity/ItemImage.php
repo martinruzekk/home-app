@@ -26,7 +26,7 @@ class ItemImage
      * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="itemImages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $item_id;
+    private $item;
 
     public function getId(): ?int
     {
@@ -45,14 +45,14 @@ class ItemImage
         return $this;
     }
 
-    public function getItemId(): ?Item
+    public function getItem(): ?Item
     {
-        return $this->item_id;
+        return $this->item;
     }
 
-    public function setItemId(?Item $item_id): self
+    public function setItem(?Item $item): self
     {
-        $this->item_id = $item_id;
+        $this->item = $item;
 
         return $this;
     }

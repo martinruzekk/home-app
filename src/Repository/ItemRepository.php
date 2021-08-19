@@ -36,6 +36,33 @@ class ItemRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+     * @return Item[]
+     */
+    public function searchItems($value)
+    {
+        $q = $this->createQueryBuilder('u');
+
+        foreach (preg_split('/\s+/', trim($value)) as $parsedPhrase) {
+            if ($parsedPhrase != '') {
+                if (!preg_match('/%/', $parsedPhrase)) {
+                    $q->where(
+                        $q->expr()->andX(
+                            $q->expr()->orX(
+                                $q->expr()->like('u.name', ':val'),
+                                $q->expr()->like('u.description', ':val'),
+                                $q->expr()->like('u.name', ':val'),
+                            ),
+                        )
+                    )
+                        ->setParameter('val', '%' . $parsedPhrase . '%');
+                }
+            }
+        }
+
+        return $q->getQuery()->getResult();
+    }
+
     /*
     public function findOneBySomeField($value): ?Item
     {

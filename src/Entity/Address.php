@@ -38,7 +38,7 @@ class Address
     private $city;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=8)
      */
     private $zipcode;
 
@@ -46,7 +46,7 @@ class Address
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="addresses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $country_id;
+    private $country;
 
     public function getId(): ?int
     {
@@ -101,26 +101,26 @@ class Address
         return $this;
     }
 
-    public function getZipcode(): ?int
+    public function getZipcode(): ?string
     {
         return $this->zipcode;
     }
 
-    public function setZipcode(int $zipcode): self
+    public function setZipcode(string $zipcode): self
     {
         $this->zipcode = $zipcode;
 
         return $this;
     }
 
-    public function getCountryId(): ?Country
+    public function getCountry(): ?Country
     {
-        return $this->country_id;
+        return $this->country;
     }
 
-    public function setCountryId(?Country $country_id): self
+    public function setCountry(?Country $country): self
     {
-        $this->country_id = $country_id;
+        $this->country = $country;
 
         return $this;
     }

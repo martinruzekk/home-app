@@ -1,0 +1,371 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inventář
+{% endblock %}
+
+{% block body %}
+<div class="container is-fluid">
+	<div class="columns">
+		<div class="column is-2">
+			<aside class="menu">
+				<h4 class="is-size-4 menu-label">
+					Inventář
+				</h4>
+				<p class="menu-label">
+					Položky
+				</p>
+				<ul class="menu-list">
+					<li>
+						<a class="{% block itemsListClass %}{% endblock %}">Seznam položek</a>
+					</li>
+					<li>
+						<a id="addItemBtn">Přidat položku</a>
+					</li>
+					<li>
+						<a id="addItemInfoBtn">Přidat kus</a>
+					</li>
+					<li>
+						<a class="{% block itemTypesClass %}{% endblock %}" id="addItemTypeBtn">Druhy položek</a>
+					</li>
+					{#TODO moje položky#}
+				</ul>
+				<p class="menu-label">
+					Místa
+				</p>
+				<ul class="menu-list">
+					<li>
+						<a class="{% block housesClass %}{% endblock %}">Geografické lokace</a>
+						<ul>
+							<li>
+								<a href="">Přidat</a>
+								<a href="">Spravovat</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a class="{% block itemLocations %}{% endblock %}">Místa v domě</a>
+						<ul>
+							<li>
+								<a href="">Přidat</a>
+								<a href="">Spravovat</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<p class="menu-label">
+					Firmy
+				</p>
+				<ul class="menu-list">
+					<li>
+						<a class="{% block companiesClass %}{% endblock %}">Seznam firem</a>
+					</li>
+					<li>
+						<a id="addCompanyBtn">Přidat firmu</a>
+					</li>
+					<li>
+						<a>Spravovat frimy</a>
+					</li>
+				</ul>
+			</aside>
+		</div>
+		<div class="is-10 mt-5">
+			<div class="table-container">
+				<table class="table">
+					<thead>
+						<tr>
+							{% block tableThead %}{% endblock %}
+							<th>
+								<abbr title="Position">Pos</abbr>
+							</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							{% block tableTfoot %}{% endblock %}
+							<th>
+								<abbr title="Position">Pos</abbr>
+							</th>
+						</tr>
+					</tfoot>
+					<tbody>
+						{% block tableTbody %}{% endblock %}
+						<tr>
+							<th>1</th>
+							<td>
+								<a href="https://en.wikipedia.org/wiki/Leicester_City_F.C."
+									title="Leicester City F.C.">Leicester City</a>
+								<strong>(C)</strong>
+							</td>
+							<td>38</td>
+							<td>23</td>
+							<td>12</td>
+							<td>3</td>
+							<td>68</td>
+							<td>36</td>
+							<td>+32</td>
+							<td>81</td>
+							<td>Qualification for the
+								<a href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage"
+									title="2016–17 UEFA Champions League">Champions League group stage</a>
+							</td>
+						</tr>
+						<tr>
+							<th>1</th>
+							<td>
+								<img src="{{ asset('img/test.png') }}" alt="" class="item-miniature">
+							</td>
+							<td>38</td>
+							<td>23</td>
+							<td>12</td>
+							<td>3</td>
+							<td>68</td>
+							<td>36</td>
+							<td>+32</td>
+							<td>81</td>
+						</tr>
+					</tbody>
+				</table>
+
+				{% block test %}{% endblock %}
+			</div>
+			{#TODO sortable table#}
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="addItemModal">
+	<div class="modal-background"></div>
+	<div class="modal-card">
+		<header class="modal-card-head">
+			<p class="modal-card-title">Přidat položku</p>
+			<button class="delete" aria-label="close"></button>
+		</header>
+		<section class="modal-card-body">
+			{{ form_start(addItemForm) }}
+			<div class="box">
+				<div class="field">
+					<label class="label">Název</label>
+					<div class="control">
+						{{ form_widget(addItemForm.name) }}
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Popis</label>
+					<div class="control">
+						{{ form_widget(addItemForm.description) }}
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Typ položky</label>
+					<div class="control">
+						<div class="select">
+							{{ form_widget(addItemForm.item_type) }}
+						</div>
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Počet</label>
+					<div class="control">
+						{{ form_widget(addItemForm.ammount) }}
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Výrobce</label>
+					<div class="control">
+						<div class="select">
+							{{ form_widget(addItemForm.company) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer class="modal-card-foot">
+			{{ form_widget(addItemForm.submit) }}
+			<button class="button">Zrušit</button>
+		</footer>
+		{{ form_end(addItemForm) }}
+
+		<!--
+			<div class="field">
+						<label class="label">Název</label>
+						<div class="control">
+							<input type="text" class="input" id="addItemName">
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Popis</label>
+						<div class="control">
+							<textarea name="itemDesctiption" id="itemDesctiption" rows="3" class="textarea"></textarea>
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Typ položky</label>
+						<div class="control">
+							<div class="select">
+								<select id="itemType"></select>
+							</div>
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Počet</label>
+						<div class="control">
+							<input type="number" class="input" min="0">
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Výrobce</label>
+						<div class="control">
+							<div class="select">
+								<select id="itemCompany">
+									{% for company in allCompanies %}
+										<option value="{{ company.name }}">{{ company.name }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+			
+			-->
+	</div>
+</div>
+
+<div class="modal" id="addItemTypeModal">
+	<div class="modal-background"></div>
+	<div class="modal-card">
+		<header class="modal-card-head">
+			<p class="modal-card-title">Přidat typ položky</p>
+			<button class="delete" aria-label="close"></button>
+		</header>
+		<section class="modal-card-body">
+			<div class="box">
+				{{ form_start(addItemType) }}
+
+				<div class="field">
+					{{ form_label(addItemType.name) }}
+					<div class="control">
+						{{ form_widget(addItemType.name) }}
+					</div>
+				</div>
+
+
+			</div>
+		</section>
+		<footer class="modal-card-foot">
+			{{ form_row(addItemType.submit) }}
+			<button class="button">Cancel</button>
+		</footer>
+	</div>
+	{{ form_end(addItemType) }}
+</div>
+
+<div class="modal" id="addCompanyModal">
+	<div class="modal-background"></div>
+	<div class="modal-card">
+		<header class="modal-card-head">
+			<p class="modal-card-title">Přidat firmu</p>
+			<button class="delete" aria-label="close"></button>
+		</header>
+		<section class="modal-card-body">
+			<div class="box">
+				<div class="field">
+					<label class="label">Název
+						<span class="has-text-danger">*</span>
+					</label>
+					<div class="control">
+						<input type="text" class="input" id="addCompanyName">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Ulice
+						<span class="has-text-danger">*</span>
+					</label>
+					<div class="control">
+						<input type="text" id="addCompanyStreet" name="street" class="input">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Číslo popisné
+						<span class="has-text-danger">*</span>
+					</label>
+					<div class="control">
+						<input type="text" id="addCompanyStreetNumber1" name="streetnumber" class="input">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Číslo orientační</label>
+					<div class="control">
+						<input type="text" id="addCompanyStreetNumber2" name="orientalnumber" class="input">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Město
+						<span class="has-text-danger">*</span>
+					</label>
+					<div class="control">
+						<input type="text" id="addCompanyCity" name="city" class="input">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">PSČ
+						<span class="has-text-danger">*</span>
+					</label>
+					<div class="control">
+						<input type="text" id="addCompanyZip" name="zip" class="input">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Stát
+						<span class="has-text-danger">*</span>
+					</label>
+					<div class="control">
+						<div class="select">
+							<select id="addCompanyCountry" name="country">
+								{% for country in allCountries %}
+								<option value="{{ country.name }}">{{ country.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Logo URL</label>
+					<div class="control">
+						<input type="url" id="addCompanyLogoURL" name="logourl" class="input">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Typ společnosti
+						<span class="has-text-danger">*</span>
+					</label>
+					<div class="control">
+						<input type="text" id="addCompanyType" name="type" class="input">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Web společnosti</label>
+					<div class="control">
+						<input type="url" id="addCompanyUrl" name="url" class="input">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Popis společnosti</label>
+					<div class="control">
+						<textarea name="desctiption" id="addCompanyDesc" rows="3" class="textarea"></textarea>
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Email společnosti</label>
+					<div class="control">
+						<input type="email" id="addCompanyEmail" name="email" class="input">
+					</div>
+				</div>
+			</div>
+
+		</section>
+		<footer class="modal-card-foot">
+			<button class="button is-success" id="addCompanySubmit">Přidat</button>
+			<button class="button">Cancel</button>
+		</footer>
+	</div>
+</div>
+{% endblock %}

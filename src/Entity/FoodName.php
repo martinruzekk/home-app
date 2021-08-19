@@ -33,15 +33,15 @@ class FoodName
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="foodNames")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $created_at;
+    private $created;
 
     /**
-     * @ORM\OneToMany(targetEntity=Food::class, mappedBy="food_name_id")
+     * @ORM\OneToMany(targetEntity=Food::class, mappedBy="food_name")
      */
     private $food;
 
@@ -79,18 +79,6 @@ class FoodName
         return $this;
     }
 
-    public function getUserId(): ?User
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
@@ -115,7 +103,7 @@ class FoodName
     {
         if (!$this->food->contains($food)) {
             $this->food[] = $food;
-            $food->setFoodNameId($this);
+            $food->setFoodName($this);
         }
 
         return $this;
@@ -125,10 +113,34 @@ class FoodName
     {
         if ($this->food->removeElement($food)) {
             // set the owning side to null (unless already changed)
-            if ($food->getFoodNameId() === $this) {
-                $food->setFoodNameId(null);
+            if ($food->getFoodName() === $this) {
+                $food->setFoodName(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeImmutable
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeImmutable $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

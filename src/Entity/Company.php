@@ -26,8 +26,9 @@ class Company
 
     /**
      * @ORM\ManyToOne(targetEntity=Address::class)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $address_id;
+    private $address;
 
     /**
      * @ORM\Column(type="string", length=2048, nullable=true)
@@ -55,12 +56,12 @@ class Company
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="company_id")
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="company")
      */
     private $items;
 
     /**
-     * @ORM\OneToMany(targetEntity=ItemInfo::class, mappedBy="retailer_id")
+     * @ORM\OneToMany(targetEntity=ItemInfo::class, mappedBy="retailer")
      */
     private $itemInfos;
 
@@ -89,12 +90,12 @@ class Company
 
     public function getAddressId(): ?Address
     {
-        return $this->address_id;
+        return $this->address;
     }
 
-    public function setAddressId(?Address $address_id): self
+    public function setAddressId(?Address $address): self
     {
-        $this->address_id = $address_id;
+        $this->address = $address;
 
         return $this;
     }
@@ -171,7 +172,7 @@ class Company
     {
         if (!$this->items->contains($item)) {
             $this->items[] = $item;
-            $item->setCompanyId($this);
+            $item->setCompany($this);
         }
 
         return $this;
@@ -181,8 +182,8 @@ class Company
     {
         if ($this->items->removeElement($item)) {
             // set the owning side to null (unless already changed)
-            if ($item->getCompanyId() === $this) {
-                $item->setCompanyId(null);
+            if ($item->getCompany() === $this) {
+                $item->setCompany(null);
             }
         }
 
@@ -201,7 +202,7 @@ class Company
     {
         if (!$this->itemInfos->contains($itemInfo)) {
             $this->itemInfos[] = $itemInfo;
-            $itemInfo->setRetailerId($this);
+            $itemInfo->setRetailer($this);
         }
 
         return $this;
@@ -211,10 +212,22 @@ class Company
     {
         if ($this->itemInfos->removeElement($itemInfo)) {
             // set the owning side to null (unless already changed)
-            if ($itemInfo->getRetailerId() === $this) {
-                $itemInfo->setRetailerId(null);
+            if ($itemInfo->getRetailer() === $this) {
+                $itemInfo->setRetailer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

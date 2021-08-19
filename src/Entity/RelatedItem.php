@@ -21,39 +21,39 @@ class RelatedItem
      * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="relatedItems")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $item_id;
+    private $item;
 
     /**
      * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="relatedItems")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $related_item_id;
+    private $related_item;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getItemId(): ?Item
+    public function getItem(): ?Item
     {
-        return $this->item_id;
+        return $this->item;
     }
 
-    public function setItemId(?Item $item_id): self
+    public function setItem(?Item $item): self
     {
-        $this->item_id = $item_id;
+        $this->item = $item;
 
         return $this;
     }
 
-    public function getRelatedItemId(): ?Item
+    public function getRelatedItem(): ?Item
     {
-        return $this->related_item_id;
+        return $this->related_item;
     }
 
-    public function setRelatedItemId(?Item $related_item_id): self
+    public function setRelatedItem(?Item $related_item): self
     {
-        $this->related_item_id = $related_item_id;
+        $this->related_item = $related_item;
 
         return $this;
     }

@@ -21,7 +21,7 @@ class ItemInfo
      * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="itemInfos")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $item_id;
+    private $item;
 
     /**
      * @ORM\Column(type="datetime")
@@ -36,7 +36,7 @@ class ItemInfo
     /**
      * @ORM\ManyToOne(targetEntity=Company::class, inversedBy="itemInfos")
      */
-    private $retailer_id;
+    private $retailer;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -51,23 +51,11 @@ class ItemInfo
     /**
      * @ORM\ManyToOne(targetEntity=InventoryLocation::class, inversedBy="itemInfos")
      */
-    private $inventory_location_id;
+    private $inventory_location;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getItemId(): ?Item
-    {
-        return $this->item_id;
-    }
-
-    public function setItemId(?Item $item_id): self
-    {
-        $this->item_id = $item_id;
-
-        return $this;
     }
 
     public function getPurchaseDate(): ?\DateTimeInterface
@@ -90,18 +78,6 @@ class ItemInfo
     public function setExpirationDate(\DateTimeInterface $expiration_date): self
     {
         $this->expiration_date = $expiration_date;
-
-        return $this;
-    }
-
-    public function getRetailerId(): ?Company
-    {
-        return $this->retailer_id;
-    }
-
-    public function setRetailerId(?Company $retailer_id): self
-    {
-        $this->retailer_id = $retailer_id;
 
         return $this;
     }
@@ -130,14 +106,38 @@ class ItemInfo
         return $this;
     }
 
-    public function getInventoryLocationId(): ?InventoryLocation
+    public function getItem(): ?Item
     {
-        return $this->inventory_location_id;
+        return $this->item;
     }
 
-    public function setInventoryLocationId(?InventoryLocation $inventory_location_id): self
+    public function setItem(?Item $item): self
     {
-        $this->inventory_location_id = $inventory_location_id;
+        $this->item = $item;
+
+        return $this;
+    }
+
+    public function getRetailer(): ?Company
+    {
+        return $this->retailer;
+    }
+
+    public function setRetailer(?Company $retailer): self
+    {
+        $this->retailer = $retailer;
+
+        return $this;
+    }
+
+    public function getInventoryLocation(): ?InventoryLocation
+    {
+        return $this->inventory_location;
+    }
+
+    public function setInventoryLocation(?InventoryLocation $inventory_location): self
+    {
+        $this->inventory_location = $inventory_location;
 
         return $this;
     }

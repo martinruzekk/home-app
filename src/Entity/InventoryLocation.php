@@ -33,15 +33,15 @@ class InventoryLocation
      * @ORM\ManyToOne(targetEntity=House::class, inversedBy="inventoryLocations")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $house_id;
+    private $house;
 
     /**
-     * @ORM\OneToMany(targetEntity=InventoryLocationImage::class, mappedBy="inventory_location_id")
+     * @ORM\OneToMany(targetEntity=InventoryLocationImage::class, mappedBy="inventory_location")
      */
     private $inventoryLocationImages;
 
     /**
-     * @ORM\OneToMany(targetEntity=ItemInfo::class, mappedBy="inventory_location_id")
+     * @ORM\OneToMany(targetEntity=ItemInfo::class, mappedBy="inventory_location")
      */
     private $itemInfos;
 
@@ -80,14 +80,14 @@ class InventoryLocation
         return $this;
     }
 
-    public function getHouseId(): ?House
+    public function getHouse(): ?House
     {
-        return $this->house_id;
+        return $this->house;
     }
 
-    public function setHouseId(?House $house_id): self
+    public function setHouse(?House $house): self
     {
-        $this->house_id = $house_id;
+        $this->house = $house;
 
         return $this;
     }
@@ -104,7 +104,7 @@ class InventoryLocation
     {
         if (!$this->inventoryLocationImages->contains($inventoryLocationImage)) {
             $this->inventoryLocationImages[] = $inventoryLocationImage;
-            $inventoryLocationImage->setInventoryLocationId($this);
+            $inventoryLocationImage->setInventoryLocation($this);
         }
 
         return $this;
@@ -114,8 +114,8 @@ class InventoryLocation
     {
         if ($this->inventoryLocationImages->removeElement($inventoryLocationImage)) {
             // set the owning side to null (unless already changed)
-            if ($inventoryLocationImage->getInventoryLocationId() === $this) {
-                $inventoryLocationImage->setInventoryLocationId(null);
+            if ($inventoryLocationImage->getInventoryLocation() === $this) {
+                $inventoryLocationImage->setInventoryLocation(null);
             }
         }
 
@@ -134,7 +134,7 @@ class InventoryLocation
     {
         if (!$this->itemInfos->contains($itemInfo)) {
             $this->itemInfos[] = $itemInfo;
-            $itemInfo->setInventoryLocationId($this);
+            $itemInfo->setInventoryLocation($this);
         }
 
         return $this;
@@ -144,8 +144,8 @@ class InventoryLocation
     {
         if ($this->itemInfos->removeElement($itemInfo)) {
             // set the owning side to null (unless already changed)
-            if ($itemInfo->getInventoryLocationId() === $this) {
-                $itemInfo->setInventoryLocationId(null);
+            if ($itemInfo->getInventoryLocation() === $this) {
+                $itemInfo->setInventoryLocation(null);
             }
         }
 

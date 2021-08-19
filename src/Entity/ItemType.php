@@ -25,7 +25,7 @@ class ItemType
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="item_type_id")
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="item_type")
      */
     private $items;
 
@@ -63,7 +63,7 @@ class ItemType
     {
         if (!$this->items->contains($item)) {
             $this->items[] = $item;
-            $item->setItemTypeId($this);
+            $item->setItemType($this);
         }
 
         return $this;
@@ -73,8 +73,8 @@ class ItemType
     {
         if ($this->items->removeElement($item)) {
             // set the owning side to null (unless already changed)
-            if ($item->getItemTypeId() === $this) {
-                $item->setItemTypeId(null);
+            if ($item->getItemType() === $this) {
+                $item->setItemType(null);
             }
         }
 
